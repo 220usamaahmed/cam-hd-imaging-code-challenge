@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HD Imaging Code Challenge</title>
+	<link rel="icon" href="#">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+
+	<div class="control-bar">
+		<div class="center">
+			<div class="image-controls">
+				<button class="add-image">+</button>
+				<select class="image-selector">
+					<option>File 1</option>
+					<option>File 2</option>
+					<option>File 3</option>
+					<option>File 4</option>
+				</select>
+			</div>
+			<div class="color-controls">
+				<button class="toggle blue"></button>
+				<button class="toggle green"></button>
+				<button class="toggle red active"></button>
+			</div>
+		</div>
+	</div>
+
+	<div class="viewer">
+		<canvas></canvas>
+	</div>
+
+
+
+<!-- 	
+	<h1>HD Imaging Code Challenge</h1>
+
+	<input type="file" id="iInputImage" multiple="multiple">
+	<button onclick="uploadImage()">Upload</button>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='javascript/main.js') }}"></script>
+ -->
+
+</body>
+</html>
