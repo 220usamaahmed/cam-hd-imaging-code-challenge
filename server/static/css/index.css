@@ -1,9 +1,9 @@
 * {
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;
 	font-size: 18px;
 	color: white;
+	font-family: sans-serif;
 }
 
 body {
@@ -18,7 +18,7 @@ body {
 	width: 100%;
 	height: 64px;
 	background-color: #212121;
-	box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.64);
+	border-bottom: 1px solid #424242;
 }
 
 .center {
@@ -26,49 +26,56 @@ body {
 	height: 100%;
 	max-width: 1280px;
 	margin: 0 auto;
-	padding: 0 8px;
+	display: flex;
+	justify-content: space-between;
 }
 
 .control-bar .image-controls {
-	float: left;
+	border-left: 1px solid #424242;
+	border-right: 1px solid #424242;
+}
+
+.control-bar .color-controls {
+	border-left: 1px solid #424242;
+	border-right: 1px solid #424242;
+	padding: 0 16px;
 }
 
 .control-bar .image-controls .image-selector {
-	background-color: #757575;
+	background-color: #212121;
 	border: none;
 	outline: none;
-	height: 48px;
-	width: 128px;
-	line-height: 48px;
+	height: 64px;
+	width: 196px;
+	line-height: 64px;
 	vertical-align: middle;
-	margin: 8px 0;
 	padding-left: 16px;
-	border-top-right-radius: 16px;
-	border-bottom-right-radius: 16px;
-	-webkit-appearance: none;
+	border-right: 1px solid #424242;
 	position: relative;
 	float: left;
 }
 
 .control-bar .image-controls .add-image {
-	background-color: #616161;
+	background-color: #212121;
 	cursor: pointer;
 	border: none;
 	outline: none;
-	height: 48px;
-	line-height: 48px;
+	height: 64px;
+	width: 64px;
+	line-height: 64px;
 	vertical-align: middle;
-	margin: 8px 0;
 	padding: 0 8px;
-	width: 48px;
-	border-top-left-radius: 16px;
-	border-bottom-left-radius: 16px;
+	border-right: 1px solid #424242;
 	float: left;
 	font-size: 2em;
 }
 
-.control-bar .color-controls {
-	float: right;
+.control-bar .color-controls label {
+	height: 64px;
+	line-height: 64px;
+	color: #757575;
+	letter-spacing: 2px;
+	margin-right: 16px;
 }
 
 .control-bar .color-controls .toggle {
@@ -77,24 +84,21 @@ body {
 	border-radius: 16px;
 	border-style: solid;
 	border-color: white;
-	border-width: 2px;
-	margin: 16px 8px;
+	border-width: 12px;
+	margin: 16px 0;
+	margin-left: 16px;
 	cursor: pointer;
 	outline: none;
 	float: right;
 	transition: border-width 100ms ease-in;
 }
 
-.control-bar .color-controls .toggle:hover {
-	border-width: 6px;
-}
-
 .active {
-	border-width: 10px !important;
+	border-width: 2px !important;
 }
 
-.active:hover {
-	border-width: 6px !important;
+.toggle:active {
+	border-width: 2px !important;
 }
 
 .control-bar .color-controls .red {
@@ -114,7 +118,62 @@ body {
 	flex: 1;
 }
 
-.viewer canvas {
+.dDialogScreen {
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
+	/*height: 100%;*/
+	background-color: rgba(33, 33, 33, 0.96);
+	z-index: 9999;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+	display: flex;
+	opacity: 0;
+	overflow: hidden;
+	height: 0;
+	transition: opacity 320ms ease-in-out;
+}
+
+.dDialogScreen.displayDialogScreen {
+	visibility: all;
+	opacity: 1;
 	height: 100%;
+}
+
+@-webkit-keyframes pulse {
+    0% { -webkit-opacity: 0.4; }
+    50% { -webkit-opacity: 1; }
+    100% { -webkit-opacity: 0.4; }
+}
+
+@keyframes pulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
+.dDialogScreen .message {
+	-webkit-animation: pulse 2s infinite ease-in-out;
+	-o-animation: pulse 2s infinite ease-in-out;
+	-ms-animation: pulse 2s infinite ease-in-out; 
+	-moz-animation: pulse 2s infinite ease-in-out; 
+	animation: pulse 2s infinite ease-in-out;
+}
+
+.dDialogScreen h2 {
+	font-size: 3.6em;
+	color: #BDBDBD;
+	margin-bottom: 16px;
+	width: 100%;
+	text-align: center;
+}
+
+.dDialogScreen p {
+	font-size: 1.2em;
+	color: #BDBDBD;
+	width: 100%;
+	text-align: center;
 }

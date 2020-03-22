@@ -41,7 +41,7 @@ def get_available_images():
 		})
 
 
-@app.route("/get_channel/<image_name>/<channel>")
+@app.route("/<image_name>/channels/<channel>")
 def get_channel(image_name, channel):
 
 	if file_handler.check_existance(image_name):

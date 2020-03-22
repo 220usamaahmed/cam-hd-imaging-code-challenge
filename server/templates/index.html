@@ -10,36 +10,51 @@
 	<div class="control-bar">
 		<div class="center">
 			<div class="image-controls">
-				<button class="add-image">+</button>
-				<select class="image-selector">
-					<option>File 1</option>
-					<option>File 2</option>
-					<option>File 3</option>
-					<option>File 4</option>
-				</select>
+
+				<input type="button" class="add-image" value="+" onclick="document.getElementById('iInputImage').click();" />
+				<input type="file" accept=".png,.jpg,.jpeg" style="display:none;" id="iInputImage" onchange="iInputImageClicked()"/>
+
+				<select class="image-selector" id="sImages"></select>
 			</div>
 			<div class="color-controls">
-				<button class="toggle blue"></button>
-				<button class="toggle green"></button>
-				<button class="toggle red active"></button>
+				<label>CHANNELS</label>
+				<button class="toggle blue" onclick="btnToggleChannelClicked(this, 'B')"></button>
+				<button class="toggle green" onclick="btnToggleChannelClicked(this, 'G')"></button>
+				<button class="toggle red" onclick="btnToggleChannelClicked(this, 'R')"></button>
 			</div>
 		</div>
 	</div>
 
 	<div class="viewer">
-		<canvas></canvas>
+		<canvas id="cViewer"></canvas>
 	</div>
 
+	<div id="dDialogScreen" class="dDialogScreen">
+		<div class="message">
+			<h2 id="hDialogScreenMsg">Please Wait</h2>
+			<p id="pDialogScreenMsg">The image is being uploaded</p>
+		</div>
+	</div>
 
+	<script type="text/javascript" src="{{ url_for('static', filename='javascript/DOMHandler.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='javascript/imageHandler.js') }}"></script>
+	<script type="text/javascript">
 
-<!-- 	
-	<h1>HD Imaging Code Challenge</h1>
+		let channelsDisplay;
 
-	<input type="file" id="iInputImage" multiple="multiple">
-	<button onclick="uploadImage()">Upload</button>
+		(function() {
+			showDialogScreen("Setting things up.")
 
-	<script type="text/javascript" src="{{ url_for('static', filename='javascript/main.js') }}"></script>
- -->
+			reloadImageList();
+			let ctx = initializeCanvas();
+			ChannelsDisplay.initialize(ctx, "one.png").then(function(cd) {
+				channelsDisplay = cd;
+			});
+
+			hideDialogScreen();
+		})();
+
+	</script>
 
 </body>
 </html>
