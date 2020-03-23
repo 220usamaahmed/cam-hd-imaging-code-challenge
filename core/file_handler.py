@@ -15,12 +15,13 @@ def savefile(file):
 	if not file: raise Exception("File not defined.")
 	if not is_valid_file(file.filename): raise Exception("Invaid file name.")
 	
-	filename = secure_filename(file.filename)
+	filenum = len(os.listdir(config.UPLOAD_DIRECTORY))
+	filename = secure_filename(f"{filenum:03}_{file.filename}")
 	file.save(os.path.join(config.UPLOAD_DIRECTORY, filename))
 
 
 def get_available_images():
-	return os.listdir(config.UPLOAD_DIRECTORY)
+	return list(reversed(os.listdir(config.UPLOAD_DIRECTORY)))
 
 
 def check_existance(filename):

@@ -13,7 +13,7 @@ function reloadImageList() {
 	xhr.onload = function(response) {
 		if (this.readyState == 4 && this.status == 200) {
 			let image_files = JSON.parse(this.responseText).data.image_files;
-			
+
 			for (let i = 0; i < image_files.length; i++) {
 				let option = document.createElement("option");
 				option.innerHTML = image_files[i];
@@ -21,8 +21,8 @@ function reloadImageList() {
 				sImages.appendChild(option);
 			}
 
-			loadImage();
 			hideDialogScreen();
+			loadImage();
 
 		} else {
 			// TODO: Display error.
@@ -87,6 +87,7 @@ function loadImage() {
 			hideDialogScreen();
 		});
 	} else {
+		hideDialogScreen();
 		showHint("Click the + icon to add images.");
 	}
 }

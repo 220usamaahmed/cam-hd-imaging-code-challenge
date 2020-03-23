@@ -47,7 +47,7 @@ def get_channel(image_name, channel):
 	if file_handler.check_existance(image_name):
 		im = image_processing.get_channel(image_name, channel)
 		im_io = BytesIO()
-		im.save(im_io, file_handler.get_format(image_name))
+		im.save(im_io, "png")
 		response = make_response(im_io.getvalue())
 		response.mimetype = f"image/png"
 		return response
