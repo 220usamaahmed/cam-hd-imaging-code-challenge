@@ -1,12 +1,15 @@
 class ChannelsDisplay {
 
-	static async initialize(ctx, imageName) {
-		this.ctx = ctx;
+	static async initialize(imgViewer, imageName, imageProcessor) {
+		this.imgViewer = imgViewer;
 		this.imageName = imageName;
 		this.channels = { 'R': true, 'G': true, 'B': true };
 		return await this.loadChannelPixels();
 	}
 
+	/**
+	 * Download image and resolve initialization promise.
+	 */
 	static async loadChannelPixels() {
 		
 		this.channelPixels = {};
@@ -41,27 +44,32 @@ class ChannelsDisplay {
 	}
 
 	static display() {
+		// TODO: Check if image is ready
+		this.processImage().then(url => {
+			this.imgViewer.src = url;
+		});
+	}
 
-		// Check if image is ready
+	static async processImage() {
 
-		let img = new Image();
-		img.width = this.width;
-		img.height = this.height;
+		return new Promise(resolve => {
+			let tempCanvas = document.createElement("canvas");
+			let tempCanvasCtx = tempCanvas.getContext("2d");
+			tempCanvas.width = this.width;
+			tempCanvas.height = this.height;
 
-		let tempCanvas = document.createElement("canvas");
-		let tempCanvasCtx = tempCanvas.getContext("2d");
-		tempCanvasCtx.drawImage(img, 0, 0);
+			let imageData = tempCanvasCtx.getImageData(0, 0, this.width, this.height);
+			let data = imageData.data;
 
-		var imageData = tempCanvasCtx.getImageData(0, 0, this.width, this.height);
-		var data = imageData.data;
-
-		for (var i = 0; i < data.length; i += 4) {
-			data[i]     = this.channels['R'] ? this.channelPixels['R'][i] : 0;
-			data[i + 1] = this.channels['G'] ? this.channelPixels['G'][i] : 0;
-			data[i + 2] = this.channels['B'] ? this.channelPixels['B'][i] : 0;
-			data[i + 3] = 255
-		}
-		this.ctx.putImageData(imageData, 0, 0);
+			for (let i = 0; i < data.length; i += 4) {
+				data[i]     = this.channels['R'] ? this.channelPixels['R'][i] : 0;
+				data[i + 1] = this.channels['G'] ? this.channelPixels['G'][i] : 0;
+				data[i + 2] = this.channels['B'] ? this.channelPixels['B'][i] : 0;
+				data[i + 3] = 255
+			}
+			tempCanvasCtx.putImageData(imageData, 0, 0);
+			resolve(tempCanvas.toDataURL("image/png"));
+		});
 
 	}
 
@@ -71,3 +79,18 @@ class ChannelsDisplay {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

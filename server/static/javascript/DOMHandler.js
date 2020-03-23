@@ -1,18 +1,12 @@
-function initializeCanvas() {
-	let canvas = document.getElementById("cViewer");
-
-	canvas.parentNode.style.position = "relative";
-	canvas.style.position = "absolute";
-	canvas.width = canvas.parentNode.offsetWidth;
-	canvas.height = canvas.parentNode.offsetHeight;
-	canvas.style.width ='100%';
-	canvas.style.height='100%';
-
-	return canvas.getContext("2d");
-}
+let channelsDisplay = null;
+let imgViewer = document.getElementById("imgViewer");
 
 function reloadImageList() {
+
+	showDialogScreen("Please Wait.", "Loading your image.");
+
 	let sImages = document.getElementById("sImages");
+	sImages.innerHTML = "";
 
 	xhr = new XMLHttpRequest();
 	xhr.open("GET", "/get_available_images", true);
@@ -23,21 +17,26 @@ function reloadImageList() {
 			for (let i = 0; i < image_files.length; i++) {
 				let option = document.createElement("option");
 				option.innerHTML = image_files[i];
+				option.value = image_files[i];
 				sImages.appendChild(option);
 			}
+
+			loadImage();
+			hideDialogScreen();
+
 		} else {
-			// Display error.
+			// TODO: Display error.
 		}
 	}
 	xhr.send();
 }
 
 function showHint(hint) {
-
+	document.getElementById("hHint").innerHTML = hint;
 }
 
 function hideHint() {
-
+	document.getElementById("hHint").innerHTML = "";
 }
 
 function showDialogScreen(message_h="Please Wait", message_p="") {
@@ -62,34 +61,42 @@ function showErrorMsg(error) {
 
 }
 
-function initializeImage() {
-
-}
-
+/**
+ * Toggle color channels
+ */
 function btnToggleChannelClicked(btn, channel) {
 	btn.classList.toggle('active');
 	channelsDisplay.toggleChannel(channel);
 }
 
+/**
+ * Load the image selected
+ */
+function loadImage() {
+	showDialogScreen("Please Wait.", "Loading your image.");
 
+	sImages = document.getElementById("sImages");
+	filename = sImages.value;
 
+	if (filename != "") {
 
+		hideHint();
 
+		ChannelsDisplay.initialize(imgViewer, filename).then(function(cd) {
+			channelsDisplay = cd;
+			hideDialogScreen();
+		});
+	} else {
+		showHint("Click the + icon to add images.");
+	}
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+/**
+ * Upload image and reload available images.
+ */
 function iInputImageClicked() {
+
+	showDialogScreen("Please Wait.", "Uploading Image");
 
 	let iInputImage = document.getElementById("iInputImage");
 
@@ -100,6 +107,8 @@ function iInputImageClicked() {
 	xhr.open("POST", "/upload_image", true);
 	xhr.onload = function(response) {
 		console.log(response);
+		hideDialogScreen();
+		reloadImageList();
 	}
 	xhr.send(formData);
 

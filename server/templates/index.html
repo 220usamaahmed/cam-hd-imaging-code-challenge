@@ -14,7 +14,10 @@
 				<input type="button" class="add-image" value="+" onclick="document.getElementById('iInputImage').click();" />
 				<input type="file" accept=".png,.jpg,.jpeg" style="display:none;" id="iInputImage" onchange="iInputImageClicked()"/>
 
-				<select class="image-selector" id="sImages"></select>
+				<select class="image-selector" id="sImages" onchange="loadImage()"></select>
+			</div>
+			<div class="hint">
+				<h2 id="hHint">Hint</h2>
 			</div>
 			<div class="color-controls">
 				<label>CHANNELS</label>
@@ -26,7 +29,7 @@
 	</div>
 
 	<div class="viewer">
-		<canvas id="cViewer"></canvas>
+		<img src="" id="imgViewer">
 	</div>
 
 	<div id="dDialogScreen" class="dDialogScreen">
@@ -37,22 +40,10 @@
 	</div>
 
 	<script type="text/javascript" src="{{ url_for('static', filename='javascript/DOMHandler.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='javascript/imageHandler.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='javascript/channelsDisplay.js') }}"></script>
 	<script type="text/javascript">
 
-		let channelsDisplay;
-
-		(function() {
-			showDialogScreen("Setting things up.")
-
-			reloadImageList();
-			let ctx = initializeCanvas();
-			ChannelsDisplay.initialize(ctx, "one.png").then(function(cd) {
-				channelsDisplay = cd;
-			});
-
-			hideDialogScreen();
-		})();
+		reloadImageList();
 
 	</script>
 
