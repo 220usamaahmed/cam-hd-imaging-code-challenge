@@ -49,7 +49,7 @@ def get_channel(image_name, channel):
 		im_io = BytesIO()
 		im.save(im_io, file_handler.get_format(image_name))
 		response = make_response(im_io.getvalue())
-		response.mimetype = f"image/{file_handler.get_format(image_name)}"
+		response.mimetype = f"image/png"
 		return response
 	else:
 		return json_response(404, "ERROR: File not found")
