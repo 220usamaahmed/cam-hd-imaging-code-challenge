@@ -48,11 +48,11 @@ def get_files_list():
 
 
 def check_existance(filename):
-	return filename in get_files_list()
+	return secure_filename(filename) in get_files_list()
 
 
 def get_path(filename):
-	return os.path.join(UPLOAD_DIRECTORY, filename)
+	return os.path.join(UPLOAD_DIRECTORY, secure_filename(filename))
 
 
 def get_channel(image_name, channel):
