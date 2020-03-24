@@ -134,7 +134,6 @@ body {
 	top: 0;
 	left: 0;
 	width: 100%;
-	/*height: 100%;*/
 	background-color: rgba(33, 33, 33, 0.96);
 	z-index: 9999;
 	align-items: center;
@@ -145,13 +144,30 @@ body {
 	opacity: 0;
 	overflow: hidden;
 	height: 0;
-	transition: opacity 320ms ease-in-out;
+	transition: opacity 320ms ease-in-out, background-color 320ms;
 }
 
 .dDialogScreen.displayDialogScreen {
 	visibility: all;
 	opacity: 1;
 	height: 100%;
+}
+
+.error {
+	background-color: rgba(192, 33, 33, 0.96);
+}
+
+.dDialogScreen #btnRefresh {
+	background-color: white;
+	border: none;
+	outline: none;
+	font-size: 1.2em;
+	margin-top: 64px;
+	padding: 8px 16px;
+	cursor: pointer;
+	border-radius: 4px;
+	color: rgb(192, 33, 33);
+	visibility: none;
 }
 
 @-webkit-keyframes pulse {
@@ -176,7 +192,7 @@ body {
 
 .dDialogScreen h2 {
 	font-size: 3.6em;
-	color: #BDBDBD;
+	color: white;
 	margin-bottom: 16px;
 	width: 100%;
 	text-align: center;
@@ -184,7 +200,7 @@ body {
 
 .dDialogScreen p {
 	font-size: 1.2em;
-	color: #BDBDBD;
+	color: white;
 	width: 100%;
 	text-align: center;
 }

@@ -14,7 +14,7 @@
 				<input type="button" class="add-image" value="+" onclick="document.getElementById('iInputImage').click();" />
 				<input type="file" accept=".png,.jpg,.jpeg" style="display:none;" id="iInputImage" onchange="iInputImageClicked()"/>
 
-				<select class="image-selector" id="sImages" onchange="loadImage()"></select>
+				<select class="image-selector" id="sImages" onchange="sImagesChanged()"></select>
 			</div>
 			<div class="hint">
 				<h2 id="hHint">Hint</h2>
@@ -37,6 +37,7 @@
 			<h2 id="hDialogScreenMsg">Please Wait</h2>
 			<p id="pDialogScreenMsg">The image is being uploaded</p>
 		</div>
+		<button type="submit" onClick="refreshPage()" id="btnRefresh">Reload Page</button>
 	</div>
 
 	<script type="text/javascript" src="{{ url_for('static', filename='javascript/DOMHandler.js') }}"></script>
