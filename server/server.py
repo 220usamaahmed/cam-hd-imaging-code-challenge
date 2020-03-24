@@ -102,6 +102,9 @@ def get_available_images():
 
 @app.route("/<image_name>/channels/<channel>")
 def channel(image_name, channel):
+	
+	# TODO: Check that channel is a valid channel
+	
 	if check_existance(image_name):
 		im = get_channel(image_name, channel)
 		im_io = BytesIO()
