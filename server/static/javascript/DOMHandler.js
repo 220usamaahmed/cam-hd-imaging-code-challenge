@@ -31,7 +31,6 @@ function reloadImageList() {
 /**
  * Add list of available images to dropdown menu.
  */
-
 function addOption(filename, setOption=false) {
 	let option = document.createElement("option");
 	option.innerHTML = filename;

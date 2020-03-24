@@ -50,7 +50,6 @@ class ChannelsDisplay {
 	}
 
 	static display() {
-		// TODO: Check if image is ready
 		this.processImage().then(url => {
 			this.imgViewer.src = url;
 		});
@@ -85,18 +84,3 @@ class ChannelsDisplay {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
