@@ -85,6 +85,7 @@ function loadImage(filename) {
 			channelsDisplay = cd;
 			hideDialogScreen();
 		});
+		
 	} else {
 		hideDialogScreen();
 		showHint("Click the + icon to add images.");

@@ -19,33 +19,37 @@ class ChannelsDisplay {
 		let channelsDoneLoading = 0;
 
 		return new Promise(resolve => {
-			for (let channel in this.channels) {
-				let img = new Image();
-				img.src = this.imageName + "/channels/" + channel;
-			
-				let that = this;
 
-				img.onload = function() {
-					if (img.width != 0 && img.height != 0) {
+			let img = new Image();
+			img.src = this.imageName + "/channels_stack";
 
-						tempCanvas.width = img.width;
-						tempCanvas.height = img.height;
-						tempCanvasCtx.drawImage(img, 0, 0);
-						that.channelPixels[channel] = tempCanvasCtx.getImageData(0, 0, img.width, img.height).data;
-						
-						channelsDoneLoading++;
-						if (channelsDoneLoading == Object.keys(that.channels).length) {
-							that.width = img.width;
-							that.height = img.height;
-							that.display();
-							resolve(that);
-						}
+			let that = this;
 
-					} else {
-						showErrorMsg("Couldn't load your image.");
+			img.onload = function() {
+
+				if (img.width != 0 && img.height != 0) {
+
+					tempCanvas.width = img.width;
+					tempCanvas.height = img.height;
+					tempCanvasCtx.drawImage(img, 0, 0);
+					
+					that.width = img.width;
+					that.height = img.height / 3;
+
+					let y = 0;
+					// TODO: Does channel in that.channels always give the channels in order?
+					for (let channel in that.channels) {
+						that.channelPixels[channel] = tempCanvasCtx.getImageData(0, y, img.width, img.height).data;
+						y += that.height;
 					}
+
+					that.display();
+					resolve(that);
+
+				} else {
+					showErrorMsg("Couldn't load your image.");
 				}
-			}
+			};
 		});
 	}
 

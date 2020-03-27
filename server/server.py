@@ -5,11 +5,17 @@ from io import BytesIO
 from werkzeug.utils import secure_filename
 
 
+app = Flask(__name__)
+
+
 # Directory to store image files uploaded
 UPLOAD_DIRECTORY = os.path.join(os.getcwd(), "image_uploads")
 
 # Allowed file formats
 ALLOWED_EXTENSIONS = ('png', 'jpg', 'jpeg')
+
+# Image channels
+CHANNELS = ('R', 'G', 'B')
 
 # Resizing
 MAX_WIDTH = 800
@@ -28,8 +34,9 @@ def savefile(file):
 	if not file: raise Exception("File not defined.")
 	if not is_valid_file(file.filename): raise Exception("Invaid file.")
 	
-	# Resizing Image
 	im = Image.open(file.stream)
+	
+	# Resizing Image
 	if im.size[0] > im.size[1] and im.size[0] > MAX_WIDTH: # W > H, Constrain W
 		width_r = MAX_WIDTH / float(im.size[0])
 		height = int(float(im.size[1]) * float(width_r))
@@ -55,12 +62,19 @@ def get_path(filename):
 	return os.path.join(UPLOAD_DIRECTORY, secure_filename(filename))
 
 
-def get_channel(image_name, channel):
+def get_channels_stack(image_name):
 	im = Image.open(get_path(image_name))
-	return im.getchannel(channel)
 
+	# Stacking images vertically
+	width = im.size[0]
+	height = im.size[1]
 
-app = Flask(__name__)
+	channel_stack = Image.new('L', (width, height * len(CHANNELS)))
+
+	for i, channel in enumerate(CHANNELS):
+		channel_stack.paste(im.getchannel(channel), (0, i * height))
+	
+	return channel_stack
 
 
 # Helper function to send json responses
@@ -100,14 +114,17 @@ def get_available_images():
 		})
 
 
-@app.route("/<image_name>/channels/<channel>")
-def channel(image_name, channel):
+# To reduce the number of HTTP requests made and the.
+# number of times the file is opened. Return R, G, B 
+# layers stacked vertically.
+@app.route("/<image_name>/channels_stack")
+def channels_stack(image_name):
 	if check_existance(image_name):
-		im = get_channel(image_name, channel)
+		im = get_channels_stack(image_name)
 		im_io = BytesIO()
 		im.save(im_io, "png")
 		response = make_response(im_io.getvalue())
-		response.mimetype = f"image/png"
+		response.mimetype = "image/png"
 		return response
 	else:
 		return json_response(404, "ERROR: File not found")
