@@ -140,7 +140,7 @@ function showErrorMsg(error, refreshOption=true) {
 	dDialogScreen.classList.add("error");
 
 	if (refreshOption)
-		document.getElementById("btnRefresh").style.visibility = "all";	
+		document.getElementById("btnRefresh").style.display = "initial";
 }
 
 function refreshPage(){

@@ -167,7 +167,7 @@ body {
 	cursor: pointer;
 	border-radius: 4px;
 	color: rgb(192, 33, 33);
-	visibility: none;
+	display: none;
 }
 
 @-webkit-keyframes pulse {

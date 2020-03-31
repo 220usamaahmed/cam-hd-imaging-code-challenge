@@ -47,9 +47,15 @@ class ChannelsDisplay {
 					resolve(that);
 
 				} else {
-					showErrorMsg("Couldn't load your image.");
+					
 				}
 			};
+
+			img.onerror = function() {
+				console.log("Here");
+				showErrorMsg("Couldn't load your image.");
+			};
+
 		});
 	}
 
